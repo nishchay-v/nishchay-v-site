@@ -1,14 +1,11 @@
 'use client';
 
 import Head from 'next/head';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import '@/lib/env';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import NextImage from '@/components/NextImage';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-
-const AVATAR_IMAGE_URL =
-  'https://nishchay-v.github.io/nishchay-v-site/public/images/avatar.jpg';
 
 const PAGE_SECTIONS = [
   {
@@ -65,14 +62,77 @@ const PAGE_SECTIONS = [
   },
 ];
 
+const SOCIAL_LINKS = [
+  {
+    title: 'GitHub',
+    url: 'www.github.com/nishchay-v',
+    imageUrl:
+      'https://raw.githubusercontent.com/nishchay-v/nishchay-v-site/main/public/svg/Github.svg',
+  },
+  {
+    title: 'LinkedIn',
+    url: 'www.linkedin.com/in/nishchayv',
+    imageUrl:
+      'https://raw.githubusercontent.com/nishchay-v/nishchay-v-site/main/public/svg/Linkedin.svg',
+  },
+  {
+    title: 'Email',
+    url: 'mailto:nishchayvashishta@gmail.com',
+    imageUrl:
+      'https://raw.githubusercontent.com/nishchay-v/nishchay-v-site/main/public/svg/Email.svg',
+  },
+];
+
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState(PAGE_SECTIONS[0].key);
   const sectionRefs = useRef([]);
+  const scrollContainerRef = useRef(null);
+
+  const scrollContainer = scrollContainerRef.current;
+  console.log('*scrollContainer: *', scrollContainer);
+
+  const handleScroll = useCallback(() => {
+    // containerScrollY: amount of pixels the user has scrolled from the top of the container
+    // containerRenderHeight: height of the container that is visible to the user
+    const { scrollTop: containerScrollY, clientHeight: containerRenderHeight } =
+      scrollContainer || {};
+    const scrollPosition = containerScrollY + containerRenderHeight / 2.5;
+    const currentSectionIndex = sectionRefs.current.findIndex(
+      (section, index) => {
+        //  offsetTop: distance from the top of the container to the top of the section
+        //  clientHeight: height of the section
+        const { offsetTop, clientHeight } = section;
+        // first section selected by default unless the user has scrolled past some of the first section
+        if (index === 0) {
+          return containerScrollY <= offsetTop + clientHeight / 2;
+        }
+        return (
+          scrollPosition >= offsetTop &&
+          scrollPosition <= offsetTop + clientHeight
+        );
+      }
+    );
+
+    if (
+      currentSectionIndex !== -1 &&
+      PAGE_SECTIONS[currentSectionIndex].key !== activeTab
+    ) {
+      setActiveTab(PAGE_SECTIONS[currentSectionIndex].key);
+    }
+  }, [activeTab]);
+
+  if (scrollContainer) {
+    scrollContainer.addEventListener('scroll', handleScroll);
+  }
 
   useEffect(() => {
     // Ensure that refs are populated
     sectionRefs.current = sectionRefs.current.slice(0, PAGE_SECTIONS.length);
   }, []);
+
+  useEffect(() => {
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [activeTab, handleScroll]);
 
   const handleTabClick = (key: string, index: number) => {
     setActiveTab(key);
@@ -88,52 +148,51 @@ export default function HomePage() {
         <title>Nishchay Vashistha</title>
       </Head>
       <body className='bg-background'>
-        <div className='mx-auto min-h-screen max-w-screen-xl px-6 py-12 font-sans md:px-12 md:py-20 lg:px-24 lg:py-0'>
+        <div className='mx-auto h-screen max-w-screen-xl px-6 font-sans md:px-12 lg:px-24 py-0'>
           <div className='grid grid-cols-12'>
-            <div className='col-span-5 h-full flex flex-col justify-between items-center max-h-screen pt-12 sticky'>
-              <Avatar className='h-40 w-40 mb-12'>
-                <AvatarImage src={AVATAR_IMAGE_URL} alt='Nishchay Vashistha' />
-                <AvatarFallback>NV</AvatarFallback>
-              </Avatar>
+            <div className='col-span-5 h-full flex flex-col justify-between items-start max-h-screen pt-12 sticky'>
               <h1>Nishchay Vashistha</h1>
+              <h2 className='my-4'>Software Engineer</h2>
+              <p className=''>
+                I transform complex ideas into flawless, interactive, and
+                universally accessible digital realities.
+              </p>
               <Tabs className='p-4 h-full' orientation='vertical'>
-                <TabsList className='flex-col h-full bg-transparent'>
+                <TabsList className='flex-col h-full bg-transparent items-start'>
                   {PAGE_SECTIONS.map((section, index) => (
                     <TabsTrigger
                       key={index}
-                      tabKey={section.key}
                       className='m-4 p-2'
                       onClick={() => handleTabClick(section.key, index)}
+                      value={section.key}
+                      data-state={
+                        activeTab === section.key ? 'active' : 'inactive'
+                      }
                     >
                       {section.title}
                     </TabsTrigger>
                   ))}
                 </TabsList>
               </Tabs>
-              <div className='m-8 flex'>
-                <a
-                  href='
-              https://www.linkedin.com/in/nishchay-vashistha-0a5a1a1b2/'
-                >
-                  LinkedIn
-                </a>
-                <br />
-                <a
-                  href='
-              hrrps://github.com/nishchayvashistha'
-                >
-                  GitHub
-                </a>
-                <br />
-                <a
-                  href='
-              mailto:lfasj@gmail.com'
-                >
-                  Email
-                </a>
-              </div>
+              <ul className='flex space-x-8 p-4'>
+                {SOCIAL_LINKS.map((link, index) => (
+                  <li key={index}>
+                    <a href={link.url} target='_blank' rel='noreferrer'>
+                      <NextImage
+                        width={24}
+                        height={24}
+                        src={link.imageUrl}
+                        alt={link.title}
+                      />
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <main className='col-span-7 overflow-y-auto h-screen pt-12'>
+            <main
+              className='col-span-7 overflow-y-auto h-screen pt-12 space-y-40 px-8'
+              ref={scrollContainerRef}
+            >
               {PAGE_SECTIONS.map((section, index) => (
                 <div
                   key={section.key}
@@ -142,9 +201,7 @@ export default function HomePage() {
                       sectionRefs.current[index] = el;
                     }
                   }}
-                  className='my-4'
                 >
-                  <h2>{section.title}</h2>
                   {typeof section.content === 'string' ? (
                     <p>{section.content}</p>
                   ) : (
