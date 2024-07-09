@@ -1,5 +1,6 @@
 'use client';
 
+import { LucideDownload } from 'lucide-react';
 import Head from 'next/head';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import '@/lib/env';
@@ -83,26 +84,24 @@ const SOCIAL_LINKS = [
   },
 ];
 
+const RESUME_URL = 'https://shorturl.at/p3h7G';
+
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState(PAGE_SECTIONS[0].key);
-  const sectionRefs = useRef([]);
+  const sectionRefs = useRef(PAGE_SECTIONS.map(() => null));
   const scrollContainerRef = useRef(null);
 
-  const scrollContainer = scrollContainerRef.current;
-  console.log('*scrollContainer: *', scrollContainer);
-
   const handleScroll = useCallback(() => {
-    // containerScrollY: amount of pixels the user has scrolled from the top of the container
-    // containerRenderHeight: height of the container that is visible to the user
+    if (!scrollContainerRef.current) return;
+
     const { scrollTop: containerScrollY, clientHeight: containerRenderHeight } =
-      scrollContainer || {};
+      scrollContainerRef.current;
     const scrollPosition = containerScrollY + containerRenderHeight / 2.5;
+
     const currentSectionIndex = sectionRefs.current.findIndex(
       (section, index) => {
-        //  offsetTop: distance from the top of the container to the top of the section
-        //  clientHeight: height of the section
+        if (!section) return false;
         const { offsetTop, clientHeight } = section;
-        // first section selected by default unless the user has scrolled past some of the first section
         if (index === 0) {
           return containerScrollY <= offsetTop + clientHeight / 2;
         }
@@ -121,20 +120,19 @@ export default function HomePage() {
     }
   }, [activeTab]);
 
-  if (scrollContainer) {
-    scrollContainer.addEventListener('scroll', handleScroll);
-  }
-
   useEffect(() => {
-    // Ensure that refs are populated
-    sectionRefs.current = sectionRefs.current.slice(0, PAGE_SECTIONS.length);
-  }, []);
+    const scrollContainer = scrollContainerRef.current;
+    if (scrollContainer) {
+      scrollContainer.addEventListener('scroll', handleScroll);
+    }
+    return () => {
+      if (scrollContainer) {
+        scrollContainer.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, [handleScroll]);
 
-  useEffect(() => {
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [activeTab, handleScroll]);
-
-  const handleTabClick = (key: string, index: number) => {
+  const handleTabClick = (key, index) => {
     setActiveTab(key);
     const section = sectionRefs.current[index];
     if (section) {
@@ -147,7 +145,7 @@ export default function HomePage() {
       <Head>
         <title>Nishchay Vashistha</title>
       </Head>
-      <body className='bg-background'>
+      <body className='bg-gradient-to-br from-slate-200 to-emerald-100'>
         <div className='mx-auto h-screen max-w-screen-xl px-6 font-sans md:px-12 lg:px-24 py-0'>
           <div className='grid grid-cols-12'>
             <div className='col-span-5 h-full flex flex-col justify-between items-start max-h-screen pt-12 sticky'>
@@ -174,7 +172,7 @@ export default function HomePage() {
                   ))}
                 </TabsList>
               </Tabs>
-              <ul className='flex space-x-8 p-4'>
+              <ul className='flex space-x-6 p-4 items-center'>
                 {SOCIAL_LINKS.map((link, index) => (
                   <li key={index}>
                     <a href={link.url} target='_blank' rel='noreferrer'>
@@ -187,6 +185,17 @@ export default function HomePage() {
                     </a>
                   </li>
                 ))}
+                <li key='download-resume'>
+                  <a
+                    href={RESUME_URL}
+                    target='_blank'
+                    download={true}
+                    className='flex rounded-full bg-black py-1 px-4 space-x-1 items-center text-sm'
+                  >
+                    <span className='text-primary-foreground'>Resume</span>
+                    <LucideDownload size={12} color='white' />
+                  </a>
+                </li>
               </ul>
             </div>
             <main
@@ -197,9 +206,8 @@ export default function HomePage() {
                 <div
                   key={section.key}
                   ref={(el) => {
-                    if (el) {
+                    if (sectionRefs.current[index] === null)
                       sectionRefs.current[index] = el;
-                    }
                   }}
                 >
                   {typeof section.content === 'string' ? (
