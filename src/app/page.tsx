@@ -200,14 +200,17 @@ const RESUME_URL = 'https://shorturl.at/p3h7G';
 
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState(PAGE_SECTIONS[0].key);
-  const sectionRefs = useRef(PAGE_SECTIONS.map(() => null));
+  const sectionRefs = useRef<(HTMLElement | null)[]>(
+    PAGE_SECTIONS.map(() => null)
+  );
   const scrollContainerRef = useRef(null);
 
   const handleScroll = useCallback(() => {
     if (!scrollContainerRef.current) return;
 
     const { scrollTop: containerScrollY, clientHeight: containerRenderHeight } =
-      scrollContainerRef.current;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      scrollContainerRef.current!;
     const scrollPosition = containerScrollY + containerRenderHeight / 2.5;
 
     const currentSectionIndex = sectionRefs.current.findIndex(
@@ -233,10 +236,9 @@ export default function HomePage() {
   }, [activeTab]);
 
   useEffect(() => {
-    const scrollContainer = scrollContainerRef.current;
-    if (scrollContainer) {
-      scrollContainer.addEventListener('scroll', handleScroll);
-    }
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const scrollContainer = scrollContainerRef.current! as HTMLElement;
+    scrollContainer.addEventListener('scroll', handleScroll);
     return () => {
       if (scrollContainer) {
         scrollContainer.removeEventListener('scroll', handleScroll);
@@ -244,7 +246,7 @@ export default function HomePage() {
     };
   }, [handleScroll]);
 
-  const handleTabClick = (key, index) => {
+  const handleTabClick = (key: React.SetStateAction<string>, index: number) => {
     setActiveTab(key);
     const section = sectionRefs.current[index];
     if (section) {
@@ -328,8 +330,8 @@ export default function HomePage() {
                     section.content.map((item, index) => (
                       <div key={index} className='my-12'>
                         <h3>{item.title}</h3>
-                        {item.company && <h4>{item.company}</h4>}
-                        {item.company && <p>{item.duration}</p>}
+                        {'company' in item && <h4>{item.company}</h4>}
+                        {'duration' in item && <p>{item.duration}</p>}
                         <p>{item.description}</p>
                         <p></p>
                       </div>
