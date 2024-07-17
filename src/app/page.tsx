@@ -8,6 +8,114 @@ import '@/lib/env';
 import NextImage from '@/components/NextImage';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
+const TekionSE1 = () => (
+  <ul className='list-disc space-y-2'>
+    <>
+      <li>
+        {' '}
+        Took <strong>ownership</strong> of frontend integration modules,
+        refactored code using <strong>design patterns</strong> to{' '}
+        <strong>scale</strong> from 5 to 12 workflows across different programs,
+        migrated logic to the <strong>backend</strong> and exposed{' '}
+        <strong>RESTful APIs</strong>.
+      </li>
+      <li>
+        {' '}
+        <strong>Architected</strong> a <strong>low-code/no-code tool</strong> to
+        help product managers to configure vehicle information page based on
+        brand and region, onboarded and <strong>mentored</strong> 2 interns to
+        successfully deliver the project.
+      </li>
+      <li>
+        {' '}
+        Developed a robust <strong>framework</strong> for custom{' '}
+        <strong>PDF generation</strong>, focusing on{' '}
+        <strong>maintainability</strong> and{' '}
+        <strong>managing contributions</strong> from multiple developers.
+      </li>
+      <li>
+        {' '}
+        Contributed to <strong>micro-frontend architecture</strong> using{' '}
+        <strong>Webpack</strong> to enhance build efficiency, chunk strategy,
+        bundling, and module federation.
+      </li>
+      <li>
+        {' '}
+        Developed a fees setup page with{' '}
+        <strong>dynamic forms and tables</strong> using{' '}
+        <strong>various React.js libraries</strong> (eg. react-table,
+        ant-design) implementing deeply nested interdependent{' '}
+        <strong>validations</strong> for complex business scenarios.
+      </li>
+    </>
+  </ul>
+);
+
+const TekionASE = () => (
+  <ul className='list-disc space-y-2'>
+    <li>
+      Developed, maintained, and shipped <strong>production code</strong> for
+      large-scale web application primarily using <strong>React</strong>,{' '}
+      <strong>HTML</strong>, <strong>Scss</strong> and{' '}
+      <strong>Javascript</strong>
+    </li>
+    <li>
+      Developed a platform-level Moodle integration for user certificate{' '}
+      <strong>authentication</strong> and access control,{' '}
+      <strong>optimising performance</strong> with local storage and
+      implementing <strong>security</strong> measures to handle edge cases.
+    </li>
+    <li>
+      Integrated Tekion's system with multiple third-party sources,{' '}
+      <strong>aggregating data</strong> from different sources into
+      user-friendly views using by leveraging{' '}
+      <strong>asynchronous programming</strong> techniques.
+    </li>
+    <li>
+      Demonstrated proficiency in working with{' '}
+      <strong>large-scale codebases</strong> for distributed web applications,
+      showcasing <strong>exceptional debugging skills</strong>.
+    </li>
+    <li>
+      Displayed <strong>high flexibility</strong> by contributing to vast number
+      of modules including backend code.
+    </li>
+    <li>
+      Worked closely with <strong>cross-functional teams</strong>, including
+      backend developers, product managers and UI/UX designers to develop{' '}
+      <strong>performant</strong> frontend applications at an{' '}
+      <strong>agile</strong> (2 week) cadence.
+    </li>
+    <li>
+      Ensured code quality and adherence to coding standards by conducting{' '}
+      <strong>code reviews</strong>, writing <strong>unit tests</strong> and
+      focusing on <strong>code reusability</strong>, componentization, and state
+      management using <strong>Redux</strong> and <strong>Context API</strong>.
+    </li>
+  </ul>
+);
+
+const TekionIntern = () => (
+  <ul className='list-disc space-y-2'>
+    <li>
+      Created a <strong>mobile first</strong> progressive web app (
+      <strong>PWA</strong>) for tracking support tickets, translated wireframes
+      and mockups into interactive and visually appealing user interfaces using{' '}
+      <strong>React</strong>.
+    </li>
+    <li>
+      Implemented multiple user navigation flows using <strong>React</strong>{' '}
+      <strong>Router</strong> and integrated with authenticator service for the
+      login.
+    </li>
+    <li>
+      Developed strong understanding of version control systems (
+      <strong>Git</strong>) and code collaboration platforms (Github, Gitlab,
+      Bitbucket).
+    </li>
+  </ul>
+);
+
 const PAGE_SECTIONS = [
   {
     title: 'About',
@@ -21,17 +129,21 @@ const PAGE_SECTIONS = [
     content: [
       {
         title: 'Software Developer',
-        company: 'Company A',
-        duration: '2020 - Present',
-        description:
-          'I am working on web development projects. My responsibilities include developing and maintaining web applications using modern JavaScript frameworks, collaborating with cross-functional teams to deliver high-quality software, and implementing best practices for coding and testing. I have successfully led several projects from inception to deployment, ensuring timely delivery and adherence to project requirements.',
+        company: 'Tekion',
+        duration: 'Jan 2024 - Present',
+        description: <TekionSE1 />,
       },
       {
-        title: 'Intern',
-        company: 'Company B',
+        title: 'Associate Software Engineer',
+        company: 'Tekion',
+        duration: 'July 2022 - Jan 2024',
+        description: <TekionASE />,
+      },
+      {
+        title: 'Software Engineer Intern',
+        company: 'Tekion',
         duration: '2019 - 2020',
-        description:
-          'I worked on a project that involved cloud computing. During my internship, I gained hands-on experience with cloud platforms such as AWS and Azure, developed automated deployment pipelines, and contributed to the optimization of cloud infrastructure. I also collaborated with senior developers to troubleshoot issues and implement scalable solutions.',
+        description: <TekionIntern />,
       },
     ],
   },
@@ -40,22 +152,22 @@ const PAGE_SECTIONS = [
     key: 'projects',
     content: [
       {
-        title: 'Project A',
+        title: 'Task Manager',
         description:
           'This project is about creating a responsive web application that allows users to track their daily tasks and manage their time efficiently. The application features a user-friendly interface, real-time updates, and integration with popular calendar apps. I used React for the frontend, Node.js for the backend, and MongoDB for the database.',
       },
       {
-        title: 'Project B',
+        title: 'Data Analytics Platform',
         description:
           'This project is about developing a cloud-based solution for data analytics. The solution involves collecting and processing large datasets from various sources, performing complex data transformations, and providing insightful visualizations. I utilized Python, Apache Spark, and AWS services such as S3, Lambda, and Redshift to build and deploy the solution.',
       },
       {
-        title: 'Project C',
+        title: 'E-commerce Platform',
         description:
           'This project is about designing an e-commerce platform that offers a seamless shopping experience. The platform includes features like product recommendations, secure payment processing, and order tracking. I implemented the frontend using Vue.js, the backend using Django, and integrated third-party services for payment and shipping.',
       },
       {
-        title: 'Project D',
+        title: 'Chatbot for Customer Support',
         description:
           'This project is about creating an AI-powered chatbot for customer support. The chatbot can handle common queries, provide instant responses, and escalate complex issues to human agents. I used natural language processing techniques, machine learning models, and integrated the chatbot with messaging platforms like Slack and Facebook Messenger.',
       },
@@ -214,11 +326,12 @@ export default function HomePage() {
                     <p>{section.content}</p>
                   ) : (
                     section.content.map((item, index) => (
-                      <div key={index} className='my-4'>
+                      <div key={index} className='my-12'>
                         <h3>{item.title}</h3>
-                        {/* <p>{item.company}</p>
-                      <p>{item.duration}</p> */}
+                        {item.company && <h4>{item.company}</h4>}
+                        {item.company && <p>{item.duration}</p>}
                         <p>{item.description}</p>
+                        <p></p>
                       </div>
                     ))
                   )}
