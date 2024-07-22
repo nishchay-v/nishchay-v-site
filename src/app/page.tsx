@@ -116,12 +116,78 @@ const TekionIntern = () => (
   </ul>
 );
 
+const ProjectDashCode = () => (
+  <ul className='list-disc space-y-2'>
+    <li>
+      Developed the Dashcode Android app for competitive programmers to track
+      progress and view upcoming contests across platforms like CodeChef and
+      Codeforces.
+    </li>
+    <li>
+      Implemented caching of data in an offline database, enhancing app
+      performance and reducing load times.
+    </li>
+    <li>
+      Utilized Repository and Factory design patterns to ensure a scalable and
+      maintainable codebase.
+    </li>
+    <li>
+      Integrated multiple REST APIs to fetch and display user performance data
+      in a graph format.
+    </li>
+  </ul>
+);
+
+const ProjectNextJsPokedex = () => (
+  <ul className='list-disc space-y-2'>
+    <li>
+      Developed the Next.js Pokedex, a full-stack app using Next.js and Tailwind
+      CSS.
+    </li>
+    <li>
+      Designed and implemented a PostgreSQL database to store user-generated
+      Pokémon.
+    </li>
+    <li>
+      Connected the database using Prisma ORM for seamless data management and
+      interaction.
+    </li>
+    <li>Key technologies: Next.js, Tailwind CSS, PostgreSQL, Prisma ORM.</li>
+  </ul>
+);
+
+const ProjectChatbot = () => (
+  <ul className='list-disc space-y-2'>
+    <li>
+      Developed an AI Chatbot, a full-stack Next.js app using TypeScript,
+      Tailwind CSS, and tRPC.
+    </li>
+    <li>
+      Created a chatbot user interface from scratch, supporting user login via
+      NextAuth.
+    </li>
+    <li>
+      Implemented chat storage in a PostgreSQL database and retrieval using
+      remote procedure calls.
+    </li>
+    <li>
+      Integrated an open-source cloud-hosted LLM to respond to user queries.
+    </li>
+    <li>
+      Ensured end-to-end type safety using Next.js and tRPC with Drizzle ORM.
+    </li>
+  </ul>
+);
+
+const GITHUB_LOGO =
+  'https://raw.githubusercontent.com/nishchay-v/nishchay-v-site/main/public/svg/Github.svg';
+
 const PAGE_SECTIONS = [
   {
     title: 'About',
     key: 'about',
     content:
-      'I am a software developer and a computer science student. I am passionate about technology and I love to learn new things. I am currently working on web development and I am also learning about cloud computing. In my free time, I enjoy exploring new programming languages, working on open-source projects, and contributing to the tech community. I have a strong foundation in algorithms and data structures, and I am always eager to solve complex problems. My goal is to continuously improve my skills and apply them to build innovative solutions.',
+      'Back in high school, I used to root Android phones, install custom ROMs, and tinker with kernels. This early interest in technology led me to pursue a degree in computer science at university, where I developed a deep passion for coding and web development.\n Fast-forward to today my main focus these days is on building scalable, high-performance web applications at Tekion. I love the intersection of design and engineering — crafting solutions that not only look good but are also robust and maintainable under the hood. One of my proudest achievements is developing a low-code/no-code tool that helps product managers configure vehicle information pages effortlessly.',
   },
   {
     title: 'Experience',
@@ -152,24 +218,25 @@ const PAGE_SECTIONS = [
     key: 'projects',
     content: [
       {
-        title: 'Task Manager',
-        description:
-          'This project is about creating a responsive web application that allows users to track their daily tasks and manage their time efficiently. The application features a user-friendly interface, real-time updates, and integration with popular calendar apps. I used React for the frontend, Node.js for the backend, and MongoDB for the database.',
+        title: 'Dashcode',
+        description: <ProjectDashCode />,
+        url: 'https://github.com/nishchay-v/DashCode?tab=readme-ov-file#dashcode-android-app',
+        urlText: 'View on GitHub',
+        imageUrl: GITHUB_LOGO,
       },
       {
-        title: 'Data Analytics Platform',
-        description:
-          'This project is about developing a cloud-based solution for data analytics. The solution involves collecting and processing large datasets from various sources, performing complex data transformations, and providing insightful visualizations. I utilized Python, Apache Spark, and AWS services such as S3, Lambda, and Redshift to build and deploy the solution.',
+        title: 'Next.js Pokedex',
+        description: <ProjectNextJsPokedex />,
+        url: 'https://next-pokedex-blue.vercel.app/',
+        urlText: 'View Live',
+        imageUrl: GITHUB_LOGO,
       },
       {
-        title: 'E-commerce Platform',
-        description:
-          'This project is about designing an e-commerce platform that offers a seamless shopping experience. The platform includes features like product recommendations, secure payment processing, and order tracking. I implemented the frontend using Vue.js, the backend using Django, and integrated third-party services for payment and shipping.',
-      },
-      {
-        title: 'Chatbot for Customer Support',
-        description:
-          'This project is about creating an AI-powered chatbot for customer support. The chatbot can handle common queries, provide instant responses, and escalate complex issues to human agents. I used natural language processing techniques, machine learning models, and integrated the chatbot with messaging platforms like Slack and Facebook Messenger.',
+        title: 'Chatbot',
+        description: <ProjectChatbot />,
+        url: 'https://github.com/nishchay-v/DashCode',
+        urlText: 'View on GitHub',
+        imageUrl: GITHUB_LOGO,
       },
     ],
   },
@@ -178,25 +245,25 @@ const PAGE_SECTIONS = [
 const SOCIAL_LINKS = [
   {
     title: 'GitHub',
-    url: 'www.github.com/nishchay-v',
-    imageUrl:
-      'https://raw.githubusercontent.com/nishchay-v/nishchay-v-site/main/public/svg/Github.svg',
+    url: '//www.github.com/nishchay-v',
+    imageUrl: GITHUB_LOGO,
   },
   {
     title: 'LinkedIn',
-    url: 'www.linkedin.com/in/nishchayv',
+    url: '//www.linkedin.com/in/nishchayv',
     imageUrl:
       'https://raw.githubusercontent.com/nishchay-v/nishchay-v-site/main/public/svg/Linkedin.svg',
   },
   {
     title: 'Email',
-    url: 'mailto:nishchayvashishta@gmail.com',
+    url: '//mailto:nishchayvashishta@gmail.com',
     imageUrl:
       'https://raw.githubusercontent.com/nishchay-v/nishchay-v-site/main/public/svg/Email.svg',
   },
 ];
 
-const RESUME_URL = 'https://shorturl.at/p3h7G';
+const RESUME_URL =
+  'https://archive.org/download/nishchay-v-3/Nishchay%20V%203.pdf';
 
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState(PAGE_SECTIONS[0].key);
@@ -257,7 +324,7 @@ export default function HomePage() {
   return (
     <>
       <Head>
-        <title>Nishchay Vashistha</title>
+        <title>Nishchay Vashistha- Software Engineer</title>
       </Head>
       <body className='bg-gradient-to-br from-slate-200 to-emerald-100'>
         <div className='mx-auto h-screen max-w-screen-xl px-6 font-sans md:px-12 lg:px-24 py-0'>
@@ -289,7 +356,7 @@ export default function HomePage() {
               <ul className='flex space-x-6 p-4 items-center'>
                 {SOCIAL_LINKS.map((link, index) => (
                   <li key={index}>
-                    <a href={link.url} target='_blank' rel='noreferrer'>
+                    <a href={link.url} target='_blank' rel='externa'>
                       <NextImage
                         width={24}
                         height={24}
@@ -332,7 +399,26 @@ export default function HomePage() {
                         <h3>{item.title}</h3>
                         {'company' in item && <h4>{item.company}</h4>}
                         {'duration' in item && <p>{item.duration}</p>}
-                        <p>{item.description}</p>
+                        {'description' in item && item.description}
+                        {'url' in item && (
+                          <a
+                            href={item.url}
+                            target='_blank'
+                            rel='external'
+                            className='flex pt-4 items-center'
+                          >
+                            {item.urlText}
+                            {'imageUrl' in item && (
+                              <NextImage
+                                width={24}
+                                height={24}
+                                src={item.imageUrl}
+                                alt={item.title}
+                                className='ml-4'
+                              />
+                            )}
+                          </a>
+                        )}
                         <p></p>
                       </div>
                     ))
