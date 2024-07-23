@@ -397,15 +397,12 @@ export default function HomePage() {
                     section.content.map((item, index) => (
                       <div key={index} className='my-12'>
                         <h3>{item.title}</h3>
-                        {'company' in item && <h4>{item.company}</h4>}
-                        {'duration' in item && <p>{item.duration}</p>}
-                        {'description' in item && item.description}
                         {'url' in item && (
                           <a
                             href={item.url}
                             target='_blank'
                             rel='external'
-                            className='flex pt-4 items-center'
+                            className='flex py-4 items-center'
                           >
                             {item.urlText}
                             {'imageUrl' in item && (
@@ -419,6 +416,9 @@ export default function HomePage() {
                             )}
                           </a>
                         )}
+                        {'company' in item && <h4>{item.company}</h4>}
+                        {'duration' in item && <p>{item.duration}</p>}
+                        {'description' in item && item.description}
                         <p></p>
                       </div>
                     ))
