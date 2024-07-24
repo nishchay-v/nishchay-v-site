@@ -321,7 +321,7 @@ export default function HomePage() {
       </Head>
       <body className='bg-gradient-to-br from-slate-200 to-emerald-100 h-screen'>
         <div className='mx-auto max-w-screen-xl px-6 font-sans md:px-12 lg:px-24 py-0 h-full'>
-          <div className='grid sm:grid-cols-12 max-sm:grid-rows-5 h-full'>
+          <div className='grid sm:grid-cols-12 max-sm:grid-rows-3 h-full'>
             <div className='sm:col-span-5 max-sm:row-span-1 sm:h-full flex flex-col justify-between items-start max-h-screen pt-6 sm:pt-12 sticky'>
               <h1>Nishchay Vashistha</h1>
               <h2 className='my-2 sm:my-4'>Software Engineer</h2>
@@ -333,7 +333,7 @@ export default function HomePage() {
               <ContactList />
             </div>
             <main
-              className='sm:col-span-7 max-sm:row-span-4 overflow-y-auto sm:h-full pt-12 space-y-20 md:space-y-40 sm:px-8 px-2'
+              className='sm:col-span-7 max-sm:row-span-2 overflow-y-auto sm:h-full pt-12 space-y-20 md:space-y-40 sm:px-8 px-2'
               ref={scrollContainerRef}
             >
               {PAGE_SECTIONS.map((section, index) => (
