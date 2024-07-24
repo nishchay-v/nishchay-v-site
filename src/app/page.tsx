@@ -1,12 +1,13 @@
 'use client';
 
-import { LucideDownload } from 'lucide-react';
 import Head from 'next/head';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import '@/lib/env';
 
 import NextImage from '@/components/NextImage';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
+import ContactList, { GITHUB_LOGO } from './components/ContactList';
 
 const TekionSE1 = () => (
   <ul className='list-disc space-y-2'>
@@ -179,9 +180,6 @@ const ProjectChatbot = () => (
   </ul>
 );
 
-const GITHUB_LOGO =
-  'https://raw.githubusercontent.com/nishchay-v/nishchay-v-site/main/public/svg/Github.svg';
-
 const PAGE_SECTIONS = [
   {
     title: 'About',
@@ -242,29 +240,6 @@ const PAGE_SECTIONS = [
   },
 ];
 
-const SOCIAL_LINKS = [
-  {
-    title: 'GitHub',
-    url: '//www.github.com/nishchay-v',
-    imageUrl: GITHUB_LOGO,
-  },
-  {
-    title: 'LinkedIn',
-    url: '//www.linkedin.com/in/nishchayv',
-    imageUrl:
-      'https://raw.githubusercontent.com/nishchay-v/nishchay-v-site/main/public/svg/Linkedin.svg',
-  },
-  {
-    title: 'Email',
-    url: '//mailto:nishchayvashishta@gmail.com',
-    imageUrl:
-      'https://raw.githubusercontent.com/nishchay-v/nishchay-v-site/main/public/svg/Email.svg',
-  },
-];
-
-const RESUME_URL =
-  'https://archive.org/download/nishchay-v-3/Nishchay%20V%203.pdf';
-
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState(PAGE_SECTIONS[0].key);
   const sectionRefs = useRef<(HTMLElement | null)[]>(
@@ -321,66 +296,44 @@ export default function HomePage() {
     }
   };
 
+  const renderTabs = () => (
+    <Tabs className='p-4 h-full max-sm:hidden' orientation='vertical'>
+      <TabsList className='flex-col h-full bg-transparent items-start'>
+        {PAGE_SECTIONS.map((section, index) => (
+          <TabsTrigger
+            key={index}
+            className='m-4 p-2'
+            onClick={() => handleTabClick(section.key, index)}
+            value={section.key}
+            data-state={activeTab === section.key ? 'active' : 'inactive'}
+          >
+            {section.title}
+          </TabsTrigger>
+        ))}
+      </TabsList>
+    </Tabs>
+  );
+
   return (
     <>
       <Head>
         <title>Nishchay Vashistha- Software Engineer</title>
       </Head>
-      <body className='bg-gradient-to-br from-slate-200 to-emerald-100'>
-        <div className='mx-auto h-screen max-w-screen-xl px-6 font-sans md:px-12 lg:px-24 py-0'>
-          <div className='grid grid-cols-12'>
-            <div className='col-span-5 h-full flex flex-col justify-between items-start max-h-screen pt-12 sticky'>
+      <body className='bg-gradient-to-br from-slate-200 to-emerald-100 h-screen'>
+        <div className='mx-auto max-w-screen-xl px-6 font-sans md:px-12 lg:px-24 py-0 h-full'>
+          <div className='grid sm:grid-cols-12 max-sm:grid-rows-5 h-full'>
+            <div className='sm:col-span-5 max-sm:row-span-1 sm:h-full flex flex-col justify-between items-start max-h-screen pt-6 sm:pt-12 sticky'>
               <h1>Nishchay Vashistha</h1>
-              <h2 className='my-4'>Software Engineer</h2>
-              <p className=''>
+              <h2 className='my-2 sm:my-4'>Software Engineer</h2>
+              <p>
                 I transform complex ideas into flawless, interactive, and
                 universally accessible digital realities.
               </p>
-              <Tabs className='p-4 h-full' orientation='vertical'>
-                <TabsList className='flex-col h-full bg-transparent items-start'>
-                  {PAGE_SECTIONS.map((section, index) => (
-                    <TabsTrigger
-                      key={index}
-                      className='m-4 p-2'
-                      onClick={() => handleTabClick(section.key, index)}
-                      value={section.key}
-                      data-state={
-                        activeTab === section.key ? 'active' : 'inactive'
-                      }
-                    >
-                      {section.title}
-                    </TabsTrigger>
-                  ))}
-                </TabsList>
-              </Tabs>
-              <ul className='flex space-x-6 p-4 items-center'>
-                {SOCIAL_LINKS.map((link, index) => (
-                  <li key={index}>
-                    <a href={link.url} target='_blank' rel='externa'>
-                      <NextImage
-                        width={24}
-                        height={24}
-                        src={link.imageUrl}
-                        alt={link.title}
-                      />
-                    </a>
-                  </li>
-                ))}
-                <li key='download-resume'>
-                  <a
-                    href={RESUME_URL}
-                    target='_blank'
-                    download={true}
-                    className='flex rounded-full bg-black py-1 px-4 space-x-1 items-center text-sm'
-                  >
-                    <span className='text-primary-foreground'>Resume</span>
-                    <LucideDownload size={12} color='white' />
-                  </a>
-                </li>
-              </ul>
+              {renderTabs()}
+              <ContactList />
             </div>
             <main
-              className='col-span-7 overflow-y-auto h-screen pt-12 space-y-40 px-8'
+              className='sm:col-span-7 max-sm:row-span-4 overflow-y-auto sm:h-full pt-12 space-y-20 md:space-y-40 sm:px-8 px-2'
               ref={scrollContainerRef}
             >
               {PAGE_SECTIONS.map((section, index) => (
