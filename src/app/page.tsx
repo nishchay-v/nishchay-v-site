@@ -317,7 +317,7 @@ export default function HomePage() {
       <Head>
         <title>Nishchay Vashistha - Software Engineer</title>
       </Head>
-      <body className='bg-gradient-to-br from-slate-200 to-emerald-100 h-screen'>
+      <body className='bg-gradient-to-br from-stone-200 to-slate-300 h-screen font-mono text-slate-800'>
         <div className='mx-auto max-w-screen-xl px-6 font-sans md:px-12 lg:px-24 py-0 h-full'>
           <div className='grid md:grid-cols-12 max-md:grid-rows-3 h-full'>
             <div className='md:col-span-5 max-md:row-span-1 md:h-full flex flex-col justify-between items-start max-h-screen pt-6 md:pt-12 sticky'>
@@ -360,9 +360,12 @@ export default function HomePage() {
                             {/* TOOD: convert to component */}
                             {ItemLink(item)}
                             {'company' in item && <h4>{item.company}</h4>}
-                            {'duration' in item && <p>{item.duration}</p>}
-                            {'description' in item && item.description}
-                            <p></p>
+                            {'duration' in item && (
+                              <div className='text-gray-600'>
+                                {item.duration}
+                              </div>
+                            )}
+                            {'description' in item && <p>{item.description}</p>}
                           </div>
                         );
                       })
