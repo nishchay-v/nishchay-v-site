@@ -320,7 +320,7 @@ export default function HomePage() {
       <body className='bg-gradient-to-br from-stone-200 to-slate-300 h-screen font-mono text-slate-800'>
         <div className='mx-auto max-w-screen-xl px-6 font-sans md:px-12 lg:px-24 py-0 h-full'>
           <div className='grid md:grid-cols-12 max-md:grid-rows-3 h-full'>
-            <div className='md:col-span-5 max-md:row-span-1 md:h-full flex flex-col justify-between items-start max-h-screen pt-6 md:pt-12 sticky'>
+            <div className='md:col-span-5 max-md:row-span-1 md:h-full flex flex-col justify-between items-start max-h-screen pt-6 md:py-12 sticky'>
               <h1>Nishchay Vashistha</h1>
               <h2 className='my-2 md:my-4'>Software Engineer</h2>
               <h4 className='my-1'>Frontend | React.js Expert</h4>
