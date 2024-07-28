@@ -3,7 +3,7 @@ import { LucideDownload } from 'lucide-react';
 import NextImage from '@/components/NextImage';
 
 export const RESUME_URL =
-  'https://archive.org/download/nishchay-v-3/Nishchay%20V%203.pdf';
+  'https://drive.google.com/file/d/1kmciKYbBvMdh1OOv0zA91enPaEWDgEd1/view?usp=sharing';
 
 export const GITHUB_LOGO =
   'https://raw.githubusercontent.com/nishchay-v/nishchay-v-site/main/public/svg/Github.svg';
