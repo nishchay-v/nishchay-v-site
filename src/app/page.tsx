@@ -248,26 +248,22 @@ export default function HomePage() {
   const scrollContainerRef = useRef(null);
 
   const handleScroll = useCallback(() => {
-    if (!scrollContainerRef.current) return;
+    const container = scrollContainerRef.current;
+    if (!container) return;
 
-    const { scrollTop: containerScrollY, clientHeight: containerRenderHeight } =
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      scrollContainerRef.current!;
-    const scrollPosition = containerScrollY + containerRenderHeight / 2.5;
+    const { scrollTop, clientHeight, offsetTop } = container;
+    const isMobile = window.innerWidth < 640;
+    const scrollPosition = isMobile ? scrollTop : scrollTop + clientHeight / 4;
 
-    const currentSectionIndex = sectionRefs.current.findIndex(
-      (section, index) => {
-        if (!section) return false;
-        const { offsetTop, clientHeight } = section;
-        if (index === 0) {
-          return containerScrollY <= offsetTop + clientHeight / 2;
-        }
-        return (
-          scrollPosition >= offsetTop &&
-          scrollPosition <= offsetTop + clientHeight
-        );
-      }
-    );
+    const currentSectionIndex = sectionRefs.current.findIndex((section) => {
+      if (!section) return false;
+      const { offsetTop: sectionTopOffset, clientHeight: sectionHeight } =
+        section;
+      return isMobile
+        ? scrollPosition + offsetTop < sectionTopOffset + sectionHeight
+        : scrollPosition >= sectionTopOffset &&
+            scrollPosition < sectionTopOffset + sectionHeight;
+    });
 
     if (
       currentSectionIndex !== -1 &&
@@ -333,51 +329,62 @@ export default function HomePage() {
               <ContactList />
             </div>
             <main
-              className='sm:col-span-7 max-sm:row-span-2 overflow-y-auto sm:h-full pt-12 space-y-20 md:space-y-40 sm:px-8 px-2'
-              ref={scrollContainerRef}
+              className='sm:col-span-7 max-sm:row-span-2 max-h-screen sm:pt-12 sm:px-8 px-2'
+              // ref={scrollContainerRef}
             >
-              {PAGE_SECTIONS.map((section, index) => (
-                <div
-                  key={section.key}
-                  ref={(el) => {
-                    if (sectionRefs.current[index] === null)
-                      sectionRefs.current[index] = el;
-                  }}
-                >
-                  {typeof section.content === 'string' ? (
-                    <p>{section.content}</p>
-                  ) : (
-                    section.content.map((item, index) => (
-                      <div key={index} className='my-12'>
-                        <h3>{item.title}</h3>
-                        {'url' in item && (
-                          <a
-                            href={item.url}
-                            target='_blank'
-                            rel='external'
-                            className='flex py-4 items-center'
-                          >
-                            {item.urlText}
-                            {'imageUrl' in item && (
-                              <NextImage
-                                width={24}
-                                height={24}
-                                src={item.imageUrl}
-                                alt={item.title}
-                                className='ml-4'
-                              />
-                            )}
-                          </a>
-                        )}
-                        {'company' in item && <h4>{item.company}</h4>}
-                        {'duration' in item && <p>{item.duration}</p>}
-                        {'description' in item && item.description}
-                        <p></p>
-                      </div>
-                    ))
-                  )}
-                </div>
-              ))}
+              <h3 className='sm:hidden sticky'>
+                {
+                  PAGE_SECTIONS.find((section) => section.key === activeTab)
+                    ?.title
+                }
+              </h3>
+              <div
+                ref={scrollContainerRef}
+                className='overflow-y-auto space-y-20 md:space-y-40 h-full'
+              >
+                {PAGE_SECTIONS.map((section, index) => (
+                  <div
+                    key={section.key}
+                    ref={(el) => {
+                      if (sectionRefs.current[index] === null)
+                        sectionRefs.current[index] = el;
+                    }}
+                  >
+                    {typeof section.content === 'string' ? (
+                      <p>{section.content}</p>
+                    ) : (
+                      section.content.map((item, index) => (
+                        <div key={index} className='my-12'>
+                          <h3>{item.title}</h3>
+                          {'url' in item && (
+                            <a
+                              href={item.url}
+                              target='_blank'
+                              rel='external'
+                              className='flex py-4 items-center'
+                            >
+                              {item.urlText}
+                              {'imageUrl' in item && (
+                                <NextImage
+                                  width={24}
+                                  height={24}
+                                  src={item.imageUrl}
+                                  alt={item.title}
+                                  className='ml-4'
+                                />
+                              )}
+                            </a>
+                          )}
+                          {'company' in item && <h4>{item.company}</h4>}
+                          {'duration' in item && <p>{item.duration}</p>}
+                          {'description' in item && item.description}
+                          <p></p>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                ))}
+              </div>
             </main>
           </div>
         </div>
