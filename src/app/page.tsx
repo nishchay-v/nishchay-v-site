@@ -194,7 +194,7 @@ const PAGE_SECTIONS = [
     key: 'experience',
     content: [
       {
-        title: 'Software Developer',
+        title: 'Software Engineer - 1',
         company: 'Tekion',
         duration: 'Jan 2024 - Present',
         description: <TekionSE1 />,
