@@ -1,11 +1,13 @@
 'use client';
 
+import { LucideExternalLink } from 'lucide-react';
 import Head from 'next/head';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import '@/lib/env';
 
-import NextImage from '@/components/NextImage';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
+import ItemLink from '@/app/components/ItemLink';
 
 import ContactList, { GITHUB_LOGO } from './components/ContactList';
 
@@ -219,7 +221,7 @@ const PAGE_SECTIONS = [
         title: 'Dashcode',
         description: <ProjectDashCode />,
         url: 'https://github.com/nishchay-v/DashCode?tab=readme-ov-file#dashcode-android-app',
-        urlText: 'View on GitHub',
+        urlText: 'Code Repo',
         imageUrl: GITHUB_LOGO,
       },
       {
@@ -227,13 +229,13 @@ const PAGE_SECTIONS = [
         description: <ProjectNextJsPokedex />,
         url: 'https://next-pokedex-blue.vercel.app/',
         urlText: 'View Live',
-        imageUrl: GITHUB_LOGO,
+        icon: LucideExternalLink,
       },
       {
         title: 'Chatbot',
         description: <ProjectChatbot />,
         url: 'https://github.com/nishchay-v/DashCode',
-        urlText: 'View on GitHub',
+        urlText: 'Code Repo',
         imageUrl: GITHUB_LOGO,
       },
     ],
@@ -252,7 +254,7 @@ export default function HomePage() {
     if (!container) return;
 
     const { scrollTop, clientHeight, offsetTop } = container;
-    const isMobile = window.innerWidth < 640;
+    const isMobile = window.innerWidth < 768;
     const scrollPosition = isMobile ? scrollTop : scrollTop + clientHeight / 4;
 
     const currentSectionIndex = sectionRefs.current.findIndex((section) => {
@@ -293,7 +295,7 @@ export default function HomePage() {
   };
 
   const renderTabs = () => (
-    <Tabs className='p-4 h-full max-sm:hidden' orientation='vertical'>
+    <Tabs className='p-4 h-full max-md:hidden' orientation='vertical'>
       <TabsList className='flex-col h-full bg-transparent items-start'>
         {PAGE_SECTIONS.map((section, index) => (
           <TabsTrigger
@@ -313,26 +315,24 @@ export default function HomePage() {
   return (
     <>
       <Head>
-        <title>Nishchay Vashistha- Software Engineer</title>
+        <title>Nishchay Vashistha - Software Engineer</title>
       </Head>
       <body className='bg-gradient-to-br from-slate-200 to-emerald-100 h-screen'>
         <div className='mx-auto max-w-screen-xl px-6 font-sans md:px-12 lg:px-24 py-0 h-full'>
-          <div className='grid sm:grid-cols-12 max-sm:grid-rows-3 h-full'>
-            <div className='sm:col-span-5 max-sm:row-span-1 sm:h-full flex flex-col justify-between items-start max-h-screen pt-6 sm:pt-12 sticky'>
+          <div className='grid md:grid-cols-12 max-md:grid-rows-3 h-full'>
+            <div className='md:col-span-5 max-md:row-span-1 md:h-full flex flex-col justify-between items-start max-h-screen pt-6 md:pt-12 sticky'>
               <h1>Nishchay Vashistha</h1>
-              <h2 className='my-2 sm:my-4'>Software Engineer</h2>
+              <h2 className='my-2 md:my-4'>Software Engineer</h2>
+              <h4 className='my-1'>Frontend | React.js Expert</h4>
               <p>
                 I transform complex ideas into flawless, interactive, and
                 universally accessible digital realities.
               </p>
               {renderTabs()}
-              <ContactList />
+              <ContactList className='md:p-4 pb-4' />
             </div>
-            <main
-              className='sm:col-span-7 max-sm:row-span-2 max-h-screen sm:pt-12 sm:px-8 px-2'
-              // ref={scrollContainerRef}
-            >
-              <h3 className='sm:hidden sticky'>
+            <main className='md:col-span-7 max-md:row-span-2 max-h-screen md:pt-12 md:px-8'>
+              <h3 className='md:hidden sticky h-[5%] border-b-[1px] border-gray-600'>
                 {
                   PAGE_SECTIONS.find((section) => section.key === activeTab)
                     ?.title
@@ -340,7 +340,7 @@ export default function HomePage() {
               </h3>
               <div
                 ref={scrollContainerRef}
-                className='overflow-y-auto space-y-20 md:space-y-40 h-full'
+                className='overflow-y-auto space-y-20 md:space-y-40 h-[95%] pt-4 px-2'
               >
                 {PAGE_SECTIONS.map((section, index) => (
                   <div
@@ -353,34 +353,19 @@ export default function HomePage() {
                     {typeof section.content === 'string' ? (
                       <p>{section.content}</p>
                     ) : (
-                      section.content.map((item, index) => (
-                        <div key={index} className='my-12'>
-                          <h3>{item.title}</h3>
-                          {'url' in item && (
-                            <a
-                              href={item.url}
-                              target='_blank'
-                              rel='external'
-                              className='flex py-4 items-center'
-                            >
-                              {item.urlText}
-                              {'imageUrl' in item && (
-                                <NextImage
-                                  width={24}
-                                  height={24}
-                                  src={item.imageUrl}
-                                  alt={item.title}
-                                  className='ml-4'
-                                />
-                              )}
-                            </a>
-                          )}
-                          {'company' in item && <h4>{item.company}</h4>}
-                          {'duration' in item && <p>{item.duration}</p>}
-                          {'description' in item && item.description}
-                          <p></p>
-                        </div>
-                      ))
+                      section.content.map((item, index) => {
+                        return (
+                          <div key={index} className='md:my-12 my-6'>
+                            <h3>{item.title}</h3>
+                            {/* TOOD: convert to component */}
+                            {ItemLink(item)}
+                            {'company' in item && <h4>{item.company}</h4>}
+                            {'duration' in item && <p>{item.duration}</p>}
+                            {'description' in item && item.description}
+                            <p></p>
+                          </div>
+                        );
+                      })
                     )}
                   </div>
                 ))}

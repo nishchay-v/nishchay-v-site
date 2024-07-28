@@ -27,9 +27,9 @@ const SOCIAL_LINKS = [
       'https://raw.githubusercontent.com/nishchay-v/nishchay-v-site/main/public/svg/Email.svg',
   },
 ];
-export default function ContactList() {
+export default function ContactList({ className }: { className: string }) {
   return (
-    <ul className='flex space-x-6 p-4 items-center'>
+    <ul className={`flex space-x-6 items-center ${className}`}>
       {SOCIAL_LINKS.map((link, index) => (
         <li key={index}>
           <a href={link.url} target='_blank' rel='externa'>
