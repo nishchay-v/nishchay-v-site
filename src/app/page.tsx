@@ -255,7 +255,7 @@ export default function HomePage() {
 
     const { scrollTop, clientHeight, offsetTop } = container;
     const isMobile = window.innerWidth < 768;
-    const scrollPosition = isMobile ? scrollTop : scrollTop + clientHeight / 4;
+    const scrollPosition = isMobile ? scrollTop : scrollTop + clientHeight / 5;
 
     const currentSectionIndex = sectionRefs.current.findIndex((section) => {
       if (!section) return false;
@@ -333,7 +333,7 @@ export default function HomePage() {
         <title>Nishchay Vashistha - Software Engineer</title>
       </Head>
       <body className='bg-gradient-to-br from-stone-200 to-slate-300 h-screen font-mono text-slate-800'>
-        <div className='mx-auto max-w-screen-xl px-4 font-sans md:px-8 lg:px-12 py-0 h-full'>
+        <div className='mx-auto max-w-screen-xl px-4 font-sans md:px-8 py-0 h-full'>
           <div className='grid md:grid-cols-12 max-md:grid-rows-3 h-full'>
             <div className='md:col-span-5 max-md:row-span-1 md:h-full flex flex-col justify-between items-start max-h-screen pt-6 md:py-12 sticky'>
               <h1>Nishchay Vashistha</h1>
