@@ -1,7 +1,5 @@
 import { LucideProps } from 'lucide-react';
 
-import NextImage from '@/components/NextImage';
-
 export default function ItemLink(
   item:
     | {
@@ -35,19 +33,10 @@ export default function ItemLink(
         href={item.url}
         target='_blank'
         rel='external'
-        className='flex p-2 items-center rounded-full bg-white w-fit my-2'
+        className='flex md:items-center md:flex-row flex-col justify-start'
       >
         {item.urlText}
-        {'imageUrl' in item && (
-          <NextImage
-            width={24}
-            height={24}
-            src={item.imageUrl ?? ''}
-            alt={item.title}
-            className='ml-4'
-          />
-        )}
-        {item.icon && <item.icon size={24} className='ml-4' />}
+        {item.icon && <item.icon size={16} className='md:ml-2' />}
       </a>
     )
   );

@@ -9,7 +9,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import ItemLink from '@/app/components/ItemLink';
 
-import ContactList, { GITHUB_LOGO } from './components/ContactList';
+import ContactList from './components/ContactList';
 
 const TekionSE1 = () => (
   <ul className='list-disc space-y-2'>
@@ -196,19 +196,19 @@ const PAGE_SECTIONS = [
       {
         title: 'Software Engineer - 1',
         company: 'Tekion',
-        duration: 'Jan 2024 - Present',
+        duration: '2024 - Present',
         description: <TekionSE1 />,
       },
       {
         title: 'Associate Software Engineer',
         company: 'Tekion',
-        duration: 'July 2022 - Jan 2024',
+        duration: '2022 - 2023',
         description: <TekionASE />,
       },
       {
         title: 'Software Engineer Intern',
         company: 'Tekion',
-        duration: '2019 - 2020',
+        duration: 'Jan - June 2022',
         description: <TekionIntern />,
       },
     ],
@@ -222,7 +222,7 @@ const PAGE_SECTIONS = [
         description: <ProjectDashCode />,
         url: 'https://github.com/nishchay-v/DashCode?tab=readme-ov-file#dashcode-android-app',
         urlText: 'Code Repo',
-        imageUrl: GITHUB_LOGO,
+        icon: LucideExternalLink,
       },
       {
         title: 'Next.js Pokedex',
@@ -236,7 +236,7 @@ const PAGE_SECTIONS = [
         description: <ProjectChatbot />,
         url: 'https://github.com/nishchay-v/DashCode',
         urlText: 'Code Repo',
-        imageUrl: GITHUB_LOGO,
+        icon: LucideExternalLink,
       },
     ],
   },
@@ -294,6 +294,21 @@ export default function HomePage() {
     }
   };
 
+  const renderContentItem = (item: any, index: any) => (
+    // return 'company' in item ? (
+    <div className='flex md:my-12 my-6' key={item.title + index}>
+      <div className='text-gray-600 w-[25%] text-sm mt-1 pr-2'>
+        {'duration' in item ? item.duration : ItemLink(item)}
+      </div>
+      <div className='w-[75%]'>
+        <h3 className='text-lg'>
+          {item.title} {'company' in item && ', ' + item.company}
+        </h3>
+        {'description' in item && <p className='text-sm'>{item.description}</p>}
+      </div>
+    </div>
+  );
+
   const renderTabs = () => (
     <Tabs className='p-4 h-full max-md:hidden' orientation='vertical'>
       <TabsList className='flex-col h-full bg-transparent items-start'>
@@ -318,7 +333,7 @@ export default function HomePage() {
         <title>Nishchay Vashistha - Software Engineer</title>
       </Head>
       <body className='bg-gradient-to-br from-stone-200 to-slate-300 h-screen font-mono text-slate-800'>
-        <div className='mx-auto max-w-screen-xl px-6 font-sans md:px-12 lg:px-24 py-0 h-full'>
+        <div className='mx-auto max-w-screen-xl px-4 font-sans md:px-8 lg:px-12 py-0 h-full'>
           <div className='grid md:grid-cols-12 max-md:grid-rows-3 h-full'>
             <div className='md:col-span-5 max-md:row-span-1 md:h-full flex flex-col justify-between items-start max-h-screen pt-6 md:py-12 sticky'>
               <h1>Nishchay Vashistha</h1>
@@ -331,7 +346,7 @@ export default function HomePage() {
               {renderTabs()}
               <ContactList className='md:p-4 pb-4' />
             </div>
-            <main className='md:col-span-7 max-md:row-span-2 max-h-screen md:pt-12 md:px-8'>
+            <main className='md:col-span-7 max-md:row-span-2 max-h-screen md:pt-12 md:px-4 lg:px-8'>
               <h3 className='md:hidden sticky h-[5%] border-b-[1px] border-gray-600'>
                 {
                   PAGE_SECTIONS.find((section) => section.key === activeTab)
@@ -351,24 +366,9 @@ export default function HomePage() {
                     }}
                   >
                     {typeof section.content === 'string' ? (
-                      <p>{section.content}</p>
+                      <p className='text-sm'>{section.content}</p>
                     ) : (
-                      section.content.map((item, index) => {
-                        return (
-                          <div key={index} className='md:my-12 my-6'>
-                            <h3>{item.title}</h3>
-                            {/* TOOD: convert to component */}
-                            {ItemLink(item)}
-                            {'company' in item && <h4>{item.company}</h4>}
-                            {'duration' in item && (
-                              <div className='text-gray-600'>
-                                {item.duration}
-                              </div>
-                            )}
-                            {'description' in item && <p>{item.description}</p>}
-                          </div>
-                        );
-                      })
+                      section.content.map(renderContentItem)
                     )}
                   </div>
                 ))}
