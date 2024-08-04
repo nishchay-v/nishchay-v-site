@@ -8,6 +8,7 @@ import '@/lib/env';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import ItemLink from '@/app/components/ItemLink';
+import LinkWithIcon from '@/app/components/LinkWithIcon';
 
 import ContactList from './components/ContactList';
 
@@ -198,18 +199,21 @@ const PAGE_SECTIONS = [
         company: 'Tekion',
         duration: '2024 - Present',
         description: <TekionSE1 />,
+        url: 'https://www.tekion.com/',
       },
       {
         title: 'Associate Software Engineer',
         company: 'Tekion',
         duration: '2022 - 2023',
         description: <TekionASE />,
+        url: 'https://www.tekion.com/',
       },
       {
         title: 'Software Engineer Intern',
         company: 'Tekion',
         duration: 'Jan - June 2022',
         description: <TekionIntern />,
+        url: 'https://www.tekion.com/',
       },
     ],
   },
@@ -295,18 +299,28 @@ export default function HomePage() {
   };
 
   const renderContentItem = (item: any, index: any) => (
-    // return 'company' in item ? (
-    <div className='flex md:my-12 my-6' key={item.title + index}>
+    <a
+      href={item.url}
+      className='flex md:my-12 my-6 p-4 rounded-md group/resumeItem hover:cursor-pointer hover:bg-slate-300 backdrop-blur-md transition-all'
+      key={item.title + index}
+      target='_blank'
+      rel='external'
+    >
       <div className='text-gray-600 w-[25%] text-sm mt-1 pr-2'>
         {'duration' in item ? item.duration : ItemLink(item)}
       </div>
       <div className='w-[75%]'>
         <h3 className='text-lg'>
-          {item.title} {'company' in item && ', ' + item.company}
+          <LinkWithIcon
+            url={item.url}
+            urlText={`${item.title} ${
+              'company' in item && ', ' + item.company
+            }`}
+          />
         </h3>
         {'description' in item && <p className='text-sm'>{item.description}</p>}
       </div>
-    </div>
+    </a>
   );
 
   const renderTabs = () => (
@@ -346,7 +360,7 @@ export default function HomePage() {
               {renderTabs()}
               <ContactList className='md:p-4 pb-4' />
             </div>
-            <main className='md:col-span-7 max-md:row-span-2 max-h-screen md:pt-12 md:px-4 lg:px-8'>
+            <main className='md:col-span-7 max-md:row-span-2 max-h-screen md:pt-12 lg:px-4'>
               <h3 className='md:hidden sticky h-[5%] border-b-[1px] border-gray-600'>
                 {
                   PAGE_SECTIONS.find((section) => section.key === activeTab)
@@ -355,7 +369,7 @@ export default function HomePage() {
               </h3>
               <div
                 ref={scrollContainerRef}
-                className='overflow-y-auto space-y-20 md:space-y-40 h-[95%] pt-4 px-2'
+                className='overflow-y-auto space-y-20 md:space-y-40 h-[95%] pt-4'
               >
                 {PAGE_SECTIONS.map((section, index) => (
                   <div
@@ -366,7 +380,7 @@ export default function HomePage() {
                     }}
                   >
                     {typeof section.content === 'string' ? (
-                      <p className='text-sm'>{section.content}</p>
+                      <p className='text-sm px-8'>{section.content}</p>
                     ) : (
                       section.content.map(renderContentItem)
                     )}
