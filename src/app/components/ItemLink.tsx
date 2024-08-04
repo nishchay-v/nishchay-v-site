@@ -1,34 +1,10 @@
-import { LucideProps } from 'lucide-react';
+import React from 'react';
 
-export default function ItemLink(
-  item:
-    | {
-        title: string;
-        company: string;
-        duration: string;
-        description: React.JSX.Element;
-      }
-    | {
-        title: string;
-        description: React.JSX.Element;
-        url: string;
-        urlText: string;
-        imageUrl: string;
-        icon?: undefined;
-      }
-    | {
-        title: string;
-        description: React.JSX.Element;
-        url: string;
-        urlText: string;
-        icon: React.ForwardRefExoticComponent<
-          Omit<LucideProps, 'ref'> & React.RefAttributes<SVGSVGElement>
-        >;
-        imageUrl?: undefined;
-      }
-) {
-  return (
-    'url' in item && (
+import { ContentItem } from '@/lib/types';
+
+const ItemLink: React.FC<ContentItem> = (item) => {
+  if ('url' in item && item.url) {
+    return (
       <a
         href={item.url}
         target='_blank'
@@ -38,6 +14,9 @@ export default function ItemLink(
         {item.urlText}
         {item.icon && <item.icon size={16} className='md:ml-2' />}
       </a>
-    )
-  );
-}
+    );
+  }
+  return null;
+};
+
+export default ItemLink;

@@ -1,16 +1,17 @@
 import { LucideArrowUpRight, LucideProps } from 'lucide-react';
+import React from 'react';
 
-export default function LinkWithIcon({
+interface LinkWithIconProps {
+  url: string;
+  urlText: string;
+  icon?: React.ComponentType<LucideProps>;
+}
+
+const LinkWithIcon: React.FC<LinkWithIconProps> = ({
   url,
   urlText,
   icon: Icon = LucideArrowUpRight,
-}: {
-  url: string;
-  urlText: string;
-  icon: React.ForwardRefExoticComponent<
-    Omit<LucideProps, 'ref'> & React.RefAttributes<SVGSVGElement>
-  >;
-}) {
+}) => {
   return (
     <a
       href={url}
@@ -27,4 +28,6 @@ export default function LinkWithIcon({
       )}
     </a>
   );
-}
+};
+
+export default LinkWithIcon;

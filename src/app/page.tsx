@@ -5,6 +5,8 @@ import Head from 'next/head';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import '@/lib/env';
 
+import { ContentItem, Section } from '@/lib/types';
+
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import ItemLink from '@/app/components/ItemLink';
@@ -183,7 +185,7 @@ const ProjectChatbot = () => (
   </ul>
 );
 
-const PAGE_SECTIONS = [
+const PAGE_SECTIONS: readonly Section[] = [
   {
     title: 'About',
     key: 'about',
@@ -246,12 +248,12 @@ const PAGE_SECTIONS = [
   },
 ];
 
-export default function HomePage() {
+const HomePage: React.FC = () => {
   const [activeTab, setActiveTab] = useState(PAGE_SECTIONS[0].key);
   const sectionRefs = useRef<(HTMLElement | null)[]>(
     PAGE_SECTIONS.map(() => null)
   );
-  const scrollContainerRef = useRef(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const handleScroll = useCallback(() => {
     const container = scrollContainerRef.current;
@@ -280,8 +282,8 @@ export default function HomePage() {
   }, [activeTab]);
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const scrollContainer = scrollContainerRef.current! as HTMLElement;
+    const scrollContainer = scrollContainerRef.current;
+    if (!scrollContainer) return;
     scrollContainer.addEventListener('scroll', handleScroll);
     return () => {
       if (scrollContainer) {
@@ -290,7 +292,7 @@ export default function HomePage() {
     };
   }, [handleScroll]);
 
-  const handleTabClick = (key: React.SetStateAction<string>, index: number) => {
+  const handleTabClick = (key: string, index: number) => {
     setActiveTab(key);
     const section = sectionRefs.current[index];
     if (section) {
@@ -298,7 +300,7 @@ export default function HomePage() {
     }
   };
 
-  const renderContentItem = (item: any, index: any) => (
+  const renderContentItem = (item: ContentItem, index: number) => (
     <a
       href={item.url}
       className='flex md:my-12 my-6 p-4 rounded-md group/resumeItem hover:cursor-pointer hover:bg-slate-300 backdrop-blur-md transition-all'
@@ -314,7 +316,7 @@ export default function HomePage() {
           <LinkWithIcon
             url={item.url}
             urlText={`${item.title} ${
-              'company' in item && ', ' + item.company
+              'company' in item ? ', ' + item.company : ''
             }`}
           />
         </h3>
@@ -354,7 +356,7 @@ export default function HomePage() {
               <h2 className='my-2 md:my-4'>Software Engineer</h2>
               <h4 className='my-1'>Frontend | React.js Expert</h4>
               <p>
-                I transform complex ideas into flawless, interactive, and
+                I transform ideas into pixel-perfect, responsive, and
                 universally accessible digital realities.
               </p>
               {renderTabs()}
@@ -380,7 +382,9 @@ export default function HomePage() {
                     }}
                   >
                     {typeof section.content === 'string' ? (
-                      <p className='text-sm px-8'>{section.content}</p>
+                      <p className='text-sm pl-6 pr-2 leading-loose'>
+                        {section.content}
+                      </p>
                     ) : (
                       section.content.map(renderContentItem)
                     )}
@@ -393,4 +397,6 @@ export default function HomePage() {
       </body>
     </>
   );
-}
+};
+
+export default HomePage;

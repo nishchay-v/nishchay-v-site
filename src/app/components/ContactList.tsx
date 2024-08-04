@@ -1,4 +1,7 @@
 import { LucideDownload } from 'lucide-react';
+import React from 'react';
+
+import { ContactLink } from '@/lib/types';
 
 import NextImage from '@/components/NextImage';
 
@@ -8,7 +11,7 @@ export const RESUME_URL =
 export const GITHUB_LOGO =
   'https://raw.githubusercontent.com/nishchay-v/nishchay-v-site/main/public/svg/Github.svg';
 
-const SOCIAL_LINKS = [
+const SOCIAL_LINKS: readonly ContactLink[] = [
   {
     title: 'GitHub',
     url: '//www.github.com/nishchay-v',
@@ -27,12 +30,17 @@ const SOCIAL_LINKS = [
       'https://raw.githubusercontent.com/nishchay-v/nishchay-v-site/main/public/svg/Email.svg',
   },
 ];
-export default function ContactList({ className }: { className: string }) {
+
+interface ContactListProps {
+  className: string;
+}
+
+const ContactList: React.FC<ContactListProps> = ({ className }) => {
   return (
     <ul className={`flex space-x-6 items-center ${className}`}>
       {SOCIAL_LINKS.map((link, index) => (
         <li key={index}>
-          <a href={link.url} target='_blank' rel='externa'>
+          <a href={link.url} target='_blank' rel='external'>
             <NextImage
               width={24}
               height={24}
@@ -55,4 +63,6 @@ export default function ContactList({ className }: { className: string }) {
       </li>
     </ul>
   );
-}
+};
+
+export default ContactList;
