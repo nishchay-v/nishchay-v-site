@@ -1,18 +1,24 @@
 'use client';
 
 import { LucideExternalLink } from 'lucide-react';
+import { Inter } from 'next/font/google';
 import Head from 'next/head';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { SWRConfig } from 'swr';
 import '@/lib/env';
 
 import { ContentItem, Section } from '@/lib/types';
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
+import ContactList from '@/app/components/ContactList';
+import ErrorBoundary from '@/app/components/ErrorBoundary';
 import ItemLink from '@/app/components/ItemLink';
 import LinkWithIcon from '@/app/components/LinkWithIcon';
 
-import ContactList from './components/ContactList';
+const inter = Inter({ subsets: ['latin'] });
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const TekionSE1 = () => (
   <ul className='list-disc space-y-2'>
@@ -344,58 +350,71 @@ const HomePage: React.FC = () => {
   );
 
   return (
-    <>
-      <Head>
-        <title>Nishchay Vashistha - Software Engineer</title>
-      </Head>
-      <body className='bg-gradient-to-br from-stone-200 to-slate-300 h-screen font-mono text-slate-800'>
-        <div className='mx-auto max-w-screen-xl px-4 font-sans md:px-8 py-0 h-full'>
-          <div className='grid md:grid-cols-12 max-md:grid-rows-3 h-full'>
-            <div className='md:col-span-5 max-md:row-span-1 md:h-full flex flex-col justify-between items-start max-h-screen pt-6 md:py-12 sticky'>
-              <h1>Nishchay Vashistha</h1>
-              <h2 className='my-2 md:my-4'>Software Engineer</h2>
-              <h4 className='my-1'>Frontend | React.js Expert</h4>
-              <p>
-                I transform ideas into pixel-perfect, responsive, and
-                universally accessible digital realities.
-              </p>
-              {renderTabs()}
-              <ContactList className='md:p-4 pb-4' />
-            </div>
-            <main className='md:col-span-7 max-md:row-span-2 max-h-screen md:pt-12 lg:px-4'>
-              <h3 className='md:hidden sticky h-[5%] border-b-[1px] border-gray-600'>
-                {
-                  PAGE_SECTIONS.find((section) => section.key === activeTab)
-                    ?.title
-                }
-              </h3>
-              <div
-                ref={scrollContainerRef}
-                className='overflow-y-auto space-y-20 md:space-y-40 h-[95%] pt-4'
-              >
-                {PAGE_SECTIONS.map((section, index) => (
-                  <div
-                    key={section.key}
-                    ref={(el) => {
-                      if (sectionRefs.current[index] === null)
-                        sectionRefs.current[index] = el;
-                    }}
-                  >
-                    {typeof section.content === 'string' ? (
-                      <p className='text-sm pl-6 pr-2 leading-loose'>
-                        {section.content}
-                      </p>
-                    ) : (
-                      section.content.map(renderContentItem)
-                    )}
-                  </div>
-                ))}
+    <SWRConfig value={{ fetcher }}>
+      <ErrorBoundary>
+        <Head>
+          <title>Nishchay Vashistha - Frontend Engineer</title>
+          <meta
+            name='description'
+            content='Portfolio of Nishchay Vashistha, Software Engineer specializing in Frontend and React.js'
+          />
+          <meta
+            name='keywords'
+            content='Software Engineer, Frontend, React.js, Nishchay Vashistha'
+          />
+          <meta name='viewport' content='width=device-width, initial-scale=1' />
+        </Head>
+        <body
+          className={`bg-gradient-to-br from-stone-200 to-slate-300 h-screen text-slate-800 ${inter.className}`}
+        >
+          <div className='mx-auto max-w-screen-xl px-4 font-sans md:px-8 py-0 h-full'>
+            <div className='grid md:grid-cols-12 max-md:grid-rows-3 h-full'>
+              <div className='md:col-span-5 max-md:row-span-1 md:h-full flex flex-col justify-between items-start max-h-screen pt-6 md:py-12 sticky'>
+                <h1>Nishchay Vashistha</h1>
+                <h2 className='my-2 md:my-4'>Software Engineer</h2>
+                <h4 className='my-1'>Frontend | React.js Expert</h4>
+                <p>
+                  I transform ideas into pixel-perfect, responsive, and
+                  universally accessible digital realities.
+                </p>
+                {renderTabs()}
+                <ContactList className='md:p-4 pb-4' />
               </div>
-            </main>
+              <main className='md:col-span-7 max-md:row-span-2 max-h-screen md:pt-12 lg:px-4'>
+                <h3 className='md:hidden sticky h-[5%] border-b-[1px] border-gray-600'>
+                  {
+                    PAGE_SECTIONS.find((section) => section.key === activeTab)
+                      ?.title
+                  }
+                </h3>
+                <div
+                  ref={scrollContainerRef}
+                  className='overflow-y-auto space-y-20 md:space-y-40 h-[95%] pt-4'
+                >
+                  {PAGE_SECTIONS.map((section, index) => (
+                    <div
+                      key={section.key}
+                      ref={(el) => {
+                        if (sectionRefs.current[index] === null)
+                          sectionRefs.current[index] = el;
+                      }}
+                    >
+                      {typeof section.content === 'string' ? (
+                        <p className='text-sm pl-6 pr-2 leading-loose'>
+                          {section.content}
+                        </p>
+                      ) : (
+                        section.content.map(renderContentItem)
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </main>
+            </div>
           </div>
-        </div>
-      </body>
-    </>
+        </body>
+      </ErrorBoundary>
+    </SWRConfig>
   );
 };
 
